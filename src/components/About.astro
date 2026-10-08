@@ -1,0 +1,36 @@
+---
+const skills = ['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4'];
+---
+
+<section id="about">
+	<div class="container">
+		<h2 class="section-title">About</h2>
+		<p>자기소개를 여기에 작성하세요. 경력, 관심 분야, 지향하는 방향 등을 2~3문단으로 정리하면 좋습니다.</p>
+		<ul class="skills">
+			{skills.map((skill) => <li>{skill}</li>)}
+		</ul>
+	</div>
+</section>
+
+<style>
+	p {
+		color: var(--color-muted);
+		max-width: 680px;
+	}
+
+	.skills {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin: 24px 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.skills li {
+		padding: 4px 12px;
+		border-radius: 999px;
+		background: var(--color-surface);
+		font-size: 14px;
+	}
+</style>

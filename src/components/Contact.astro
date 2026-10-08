@@ -1,0 +1,41 @@
+---
+const contacts = [
+	{ label: 'Email', href: 'mailto:you@example.com', text: 'you@example.com' },
+	{ label: 'GitHub', href: 'https://github.com/sgcho-0809', text: 'github.com/sgcho-0809' },
+];
+---
+
+<section id="contact">
+	<div class="container">
+		<h2 class="section-title">Contact</h2>
+		<ul>
+			{
+				contacts.map((contact) => (
+					<li>
+						<span>{contact.label}</span>
+						<a href={contact.href}>{contact.text}</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		display: flex;
+		gap: 16px;
+		padding: 8px 0;
+	}
+
+	span {
+		width: 72px;
+		color: var(--color-muted);
+	}
+</style>
