@@ -1,0 +1,74 @@
+---
+import { localizePath, pages, toLang, useTranslations } from '../i18n/ui';
+
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<section class="overview">
+	<div class="container grid">
+		{
+			pages.map((page) => (
+				<a class="card" href={localizePath(`/${page}/`, lang)}>
+					<h2>{t(`nav.${page}`)}</h2>
+					<p>{t(`summary.${page}`)}</p>
+					<span aria-hidden="true">→</span>
+				</a>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.overview {
+		padding-top: 0;
+		border-top: none;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+		gap: 14px;
+	}
+
+	.card {
+		position: relative;
+		display: block;
+		padding: 20px 44px 20px 20px;
+		border: 1px solid var(--color-border);
+		border-radius: 12px;
+		color: var(--color-text);
+		text-decoration: none;
+		transition:
+			border-color 0.15s,
+			background 0.15s;
+	}
+
+	.card:hover {
+		border-color: var(--color-accent);
+		background: var(--color-surface);
+	}
+
+	h2 {
+		margin: 0 0 6px;
+		font-size: 17px;
+		font-weight: 600;
+	}
+
+	p {
+		margin: 0;
+		color: var(--color-muted);
+		font-size: 14px;
+	}
+
+	span {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		color: var(--color-muted);
+	}
+
+	.card:hover span {
+		color: var(--color-accent);
+	}
+</style>

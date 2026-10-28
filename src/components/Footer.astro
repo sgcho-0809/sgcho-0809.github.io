@@ -1,10 +1,13 @@
 ---
+import { toLang, useTranslations } from '../i18n/ui';
+
+const t = useTranslations(toLang(Astro.currentLocale));
 const year = new Date().getFullYear();
 ---
 
 <footer>
 	<div class="container">
-		<p>© {year} Sang-Gyu Cho</p>
+		<p>© {year} {t('hero.name')}</p>
 	</div>
 </footer>
 

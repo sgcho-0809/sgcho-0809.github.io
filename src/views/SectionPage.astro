@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { pageTitleKey, toLang, useTranslations, type Page, type UiKey } from '../i18n/ui';
+
+interface Props {
+	page: Page;
+	/** Extra sub-sections shown below the page intro, e.g. Awards and Skills on About. */
+	sections?: { id: string; titleKey: UiKey }[];
+}
+
+const { page, sections = [] } = Astro.props;
+const t = useTranslations(toLang(Astro.currentLocale));
+const title = t(pageTitleKey(page));
+---
+
+<Layout title={title}>
+	<PageHeader title={title} lead={t('common.comingSoon')} />
+	{sections.map((section) => <Placeholder {...section} />)}
+</Layout>

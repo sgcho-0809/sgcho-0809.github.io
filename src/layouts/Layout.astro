@@ -1,32 +1,55 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { languages, localizePath, toLang, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
+	/** Page name shown before the site title; omit on the home page. */
 	title?: string;
 	description?: string;
 }
 
-const { title = 'Sang-Gyu Cho | Portfolio', description = 'Sang-Gyu Cho의 포트폴리오' } =
-	Astro.props;
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const { description = t('site.description') } = Astro.props;
+const title = Astro.props.title ? `${Astro.props.title} | ${t('site.title')}` : t('site.title');
+const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
+	code,
+	href: new URL(localizePath(Astro.url.pathname, code), Astro.site).href,
+}));
 ---
 
 <!doctype html>
-<html lang="ko">
+<html lang={lang}>
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
+		{alternates.map((alt) => <link rel="alternate" hreflang={alt.code} href={alt.href} />)}
+		<link rel="alternate" hreflang="x-default" href={alternates[0].href} />
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+		/>
 		<title>{title}</title>
+		<script
+			is:inline
+			data-goatcounter="https://sgcho.goatcounter.com/count"
+			async
+			src="//gc.zgo.at/count.js"></script>
 	</head>
 	<body>
 		<Header />
-		<main>
-			<slot />
-		</main>
+		<div class="container shell">
+			<Sidebar />
+			<main>
+				<slot />
+			</main>
+		</div>
 		<Footer />
 	</body>
 </html>
@@ -34,23 +57,34 @@ const { title = 'Sang-Gyu Cho | Portfolio', description = 'Sang-Gyu Cho의 포�
 <style is:global>
 	:root {
 		--color-bg: #ffffff;
-		--color-surface: #f4f5f7;
-		--color-text: #111827;
-		--color-muted: #4b5563;
-		--color-border: #e5e7eb;
-		--color-accent: #3245ff;
-		--max-width: 960px;
+		--color-surface: #f6f7f9;
+		--color-text: #16181d;
+		--color-muted: #5b6270;
+		--color-border: #e6e8ec;
+		--color-accent: #0b2a5b;
+		--color-accent-soft: #e8edf6;
+		--color-teal: #3bb39a;
+		--max-width: 1120px;
+		--sidebar-width: 240px;
+		color-scheme: light;
 	}
 
 	@media (prefers-color-scheme: dark) {
 		:root {
-			--color-bg: #0f1115;
-			--color-surface: #1a1d24;
-			--color-text: #f3f4f6;
-			--color-muted: #9ca3af;
-			--color-border: #2a2e37;
-			--color-accent: #7b8cff;
+			--color-bg: #1f2124;
+			--color-surface: #282b2f;
+			--color-text: #e6e7e9;
+			--color-muted: #a3a8b0;
+			--color-border: #35383d;
+			--color-accent: #a9bde3;
+			--color-accent-soft: #2c3442;
+			--color-teal: #4fc4a9;
+			color-scheme: dark;
 		}
+	}
+
+	@view-transition {
+		navigation: auto;
 	}
 
 	*,
@@ -60,7 +94,6 @@ const { title = 'Sang-Gyu Cho | Portfolio', description = 'Sang-Gyu Cho의 포�
 	}
 
 	html {
-		scroll-behavior: smooth;
 		scroll-padding-top: 72px;
 	}
 
@@ -69,26 +102,68 @@ const { title = 'Sang-Gyu Cho | Portfolio', description = 'Sang-Gyu Cho의 포�
 		background: var(--color-bg);
 		color: var(--color-text);
 		font-family:
-			Pretendard, Inter, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', Roboto, sans-serif;
-		line-height: 1.6;
+			'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+			'Malgun Gothic', 'Segoe UI', Roboto, sans-serif;
+		line-height: 1.65;
+		word-break: keep-all;
+		-webkit-font-smoothing: antialiased;
 	}
 
 	a {
 		color: var(--color-accent);
 	}
 
+	img {
+		max-width: 100%;
+	}
+
 	.container {
 		max-width: var(--max-width);
 		margin: 0 auto;
-		padding: 0 16px;
+		padding: 0 20px;
+	}
+
+	.shell {
+		display: grid;
+		grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+		gap: 64px;
+		padding-block: 40px 72px;
+	}
+
+	/* Sections reuse .container for standalone use; inside the shell the grid already sets width. */
+	main .container {
+		max-width: none;
+		padding: 0;
+	}
+
+	@media (max-width: 900px) {
+		.shell {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 8px;
+			padding-block: 28px 56px;
+		}
 	}
 
 	section {
-		padding: 80px 0;
+		padding: 56px 0;
+	}
+
+	section + section {
+		border-top: 1px solid var(--color-border);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		::view-transition-group(*),
+		::view-transition-old(*),
+		::view-transition-new(*) {
+			animation: none !important;
+		}
 	}
 
 	h2.section-title {
-		font-size: 28px;
-		margin: 0 0 24px;
+		font-size: 26px;
+		font-weight: 700;
+		letter-spacing: -0.01em;
+		margin: 0 0 28px;
 	}
 </style>

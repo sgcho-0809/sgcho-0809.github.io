@@ -1,0 +1,25 @@
+---
+import { toLang, useTranslations, type UiKey } from '../i18n/ui';
+
+interface Props {
+	id: string;
+	titleKey: UiKey;
+}
+
+const { id, titleKey } = Astro.props;
+const t = useTranslations(toLang(Astro.currentLocale));
+---
+
+<section id={id}>
+	<div class="container">
+		<h2 class="section-title">{t(titleKey)}</h2>
+		<p>{t('common.comingSoon')}</p>
+	</div>
+</section>
+
+<style>
+	p {
+		margin: 0;
+		color: var(--color-muted);
+	}
+</style>

@@ -1,0 +1,170 @@
+---
+import { profile } from '../data/profile';
+import { toLang, useTranslations } from '../i18n/ui';
+
+const t = useTranslations(toLang(Astro.currentLocale));
+
+const icons = {
+	location:
+		'M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Zm0-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z',
+	lab: 'M4 21V8l8-5 8 5v13M9 21v-6h6v6M3 21h18',
+	email: 'M3 6h18v12H3zM3 7l9 6 9-6',
+	github:
+		'M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21',
+	orcid: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM9 8v.01M9 11v5M12.5 8v8h1a4 4 0 0 0 0-8Z',
+	linkedin: 'M4 4h16v16H4zM8 11v5M8 8v.01M12 16v-5M12 13.5a2.5 2.5 0 0 1 5 0V16',
+	scholar: 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5',
+};
+
+type Item = { icon: string; text: string; href?: string; label?: string };
+
+const items: Item[] = [
+	{ icon: icons.location, text: t('profile.location') },
+	{ icon: icons.lab, text: t('profile.lab'), href: profile.lab },
+	{ icon: icons.email, text: profile.email, href: `mailto:${profile.email}`, label: t('profile.email') },
+	{ icon: icons.github, text: 'GitHub', href: profile.github },
+	{ icon: icons.orcid, text: 'ORCID', href: profile.orcid },
+	{ icon: icons.linkedin, text: 'LinkedIn', href: profile.linkedin },
+	{ icon: icons.scholar, text: 'Google Scholar', href: profile.scholar },
+].filter((item) => item.href !== '');
+---
+
+<aside class="sidebar">
+	<div class="avatar" aria-hidden="true">{t('hero.name').slice(0, 1)}</div>
+	<div class="identity">
+		<p class="name">{t('hero.name')}</p>
+		<p class="role">{t('hero.role')}</p>
+		<p class="bio">{t('profile.bio')}</p>
+	</div>
+	<ul>
+		{
+			items.map((item) => (
+				<li>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d={item.icon} />
+					</svg>
+					{item.href ? (
+						<a
+							href={item.href}
+							aria-label={item.label}
+							target={item.href.startsWith('http') ? '_blank' : undefined}
+							rel="noopener"
+						>
+							{item.text}
+						</a>
+					) : (
+						<span>{item.text}</span>
+					)}
+				</li>
+			))
+		}
+	</ul>
+</aside>
+
+<style>
+	.sidebar {
+		position: sticky;
+		top: calc(64px + 40px);
+		align-self: start;
+		view-transition-name: site-sidebar;
+	}
+
+	.avatar {
+		display: grid;
+		place-items: center;
+		width: 160px;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background: var(--color-accent-soft);
+		color: var(--color-accent);
+		font-size: 56px;
+		font-weight: 700;
+	}
+
+	.name {
+		margin: 20px 0 4px;
+		font-size: 22px;
+		font-weight: 700;
+		letter-spacing: -0.01em;
+	}
+
+	.role,
+	.bio {
+		margin: 0;
+		color: var(--color-muted);
+		font-size: 14px;
+	}
+
+	.bio {
+		margin-top: 10px;
+	}
+
+	ul {
+		display: grid;
+		gap: 10px;
+		margin: 20px 0 0;
+		padding: 20px 0 0;
+		border-top: 1px solid var(--color-border);
+		list-style: none;
+		font-size: 14px;
+	}
+
+	li {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		min-width: 0;
+	}
+
+	svg {
+		flex: none;
+		width: 16px;
+		height: 16px;
+		fill: none;
+		stroke: var(--color-muted);
+		stroke-width: 1.8;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	li a,
+	li span {
+		color: var(--color-text);
+		text-decoration: none;
+		overflow-wrap: anywhere;
+	}
+
+	li a:hover {
+		color: var(--color-accent);
+		text-decoration: underline;
+	}
+
+	@media (max-width: 900px) {
+		.sidebar {
+			position: static;
+			display: grid;
+			grid-template-columns: auto 1fr;
+			column-gap: 20px;
+			align-items: center;
+			padding-bottom: 24px;
+			border-bottom: 1px solid var(--color-border);
+		}
+
+		.avatar {
+			width: 84px;
+			font-size: 32px;
+		}
+
+		.name {
+			margin-top: 0;
+		}
+
+		ul {
+			grid-column: 1 / -1;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			margin-top: 20px;
+			padding-top: 0;
+			border-top: none;
+		}
+	}
+</style>
