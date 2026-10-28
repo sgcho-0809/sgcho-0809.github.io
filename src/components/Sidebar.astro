@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import photo from '../assets/profile.jpg';
 import { profile } from '../data/profile';
 import { toLang, useTranslations } from '../i18n/ui';
 
@@ -30,7 +32,7 @@ const items: Item[] = [
 ---
 
 <aside class="sidebar">
-	<div class="avatar" aria-hidden="true">{t('hero.name').slice(0, 1)}</div>
+	<Image class="avatar" src={photo} alt={t('hero.name')} width={320} loading="eager" />
 	<div class="identity">
 		<p class="name">{t('hero.name')}</p>
 		<p class="role">{t('hero.role')}</p>
@@ -70,15 +72,14 @@ const items: Item[] = [
 	}
 
 	.avatar {
-		display: grid;
-		place-items: center;
+		display: block;
 		width: 160px;
+		height: auto;
 		aspect-ratio: 1;
 		border-radius: 50%;
+		object-fit: cover;
+		object-position: 50% 22%;
 		background: var(--color-accent-soft);
-		color: var(--color-accent);
-		font-size: 56px;
-		font-weight: 700;
 	}
 
 	.name {
@@ -152,7 +153,6 @@ const items: Item[] = [
 
 		.avatar {
 			width: 84px;
-			font-size: 32px;
 		}
 
 		.name {

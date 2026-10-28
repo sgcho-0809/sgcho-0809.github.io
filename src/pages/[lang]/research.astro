@@ -1,5 +1,8 @@
 ---
 import SectionPage from '../../views/SectionPage.astro';
+import { localizedPaths } from '../../i18n/ui';
+
+export const getStaticPaths = localizedPaths;
 ---
 
 <SectionPage page="research" />

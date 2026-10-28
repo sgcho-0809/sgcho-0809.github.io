@@ -36,6 +36,12 @@ const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
 			href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
 		/>
 		<title>{title}</title>
+		<script is:inline>
+			try {
+				const theme = localStorage.getItem('theme');
+				if (theme) document.documentElement.dataset.theme = theme;
+			} catch {}
+		</script>
 		<script
 			is:inline
 			data-goatcounter="https://sgcho.goatcounter.com/count"
@@ -69,8 +75,9 @@ const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
 		color-scheme: light;
 	}
 
+	/* Dark tokens: follow the OS unless the visitor picked a theme (data-theme), then honor that. */
 	@media (prefers-color-scheme: dark) {
-		:root {
+		:root:not([data-theme='light']) {
 			--color-bg: #1f2124;
 			--color-surface: #282b2f;
 			--color-text: #e6e7e9;
@@ -81,6 +88,18 @@ const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
 			--color-teal: #4fc4a9;
 			color-scheme: dark;
 		}
+	}
+
+	:root[data-theme='dark'] {
+		--color-bg: #1f2124;
+		--color-surface: #282b2f;
+		--color-text: #e6e7e9;
+		--color-muted: #a3a8b0;
+		--color-border: #35383d;
+		--color-accent: #a9bde3;
+		--color-accent-soft: #2c3442;
+		--color-teal: #4fc4a9;
+		color-scheme: dark;
 	}
 
 	@view-transition {
@@ -103,7 +122,8 @@ const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
 		color: var(--color-text);
 		font-family:
 			'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
-			'Malgun Gothic', 'Segoe UI', Roboto, sans-serif;
+			'Malgun Gothic', 'Hiragino Sans', 'Yu Gothic UI', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', Roboto,
+			sans-serif;
 		line-height: 1.65;
 		word-break: keep-all;
 		-webkit-font-smoothing: antialiased;
