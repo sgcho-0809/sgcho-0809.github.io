@@ -6,16 +6,45 @@ import { pageTitleKey, toLang, useTranslations, type Page, type UiKey } from '..
 
 interface Props {
 	page: Page;
+	/** Intro paragraphs under the page title; strings may contain <strong>. Falls back to "coming soon". */
+	intro?: UiKey[];
 	/** Extra sub-sections shown below the page intro, e.g. Awards and Skills on About. */
 	sections?: { id: string; titleKey: UiKey }[];
 }
 
-const { page, sections = [] } = Astro.props;
+const { page, intro = [], sections = [] } = Astro.props;
 const t = useTranslations(toLang(Astro.currentLocale));
 const title = t(pageTitleKey(page));
 ---
 
 <Layout title={title}>
-	<PageHeader title={title} lead={t('common.comingSoon')} />
+	<PageHeader title={title} lead={intro.length ? undefined : t('common.comingSoon')} />
+	{
+		intro.length > 0 && (
+			<div class="intro">
+				{intro.map((key) => (
+					<p set:html={t(key)} />
+				))}
+			</div>
+		)
+	}
 	{sections.map((section) => <Placeholder {...section} />)}
 </Layout>
+
+<style>
+	.intro {
+		max-width: 720px;
+		padding-top: 16px;
+	}
+
+	.intro p {
+		margin: 0 0 16px;
+		font-size: 17px;
+		line-height: 1.75;
+	}
+
+	.intro :global(strong) {
+		color: var(--color-accent);
+		font-weight: 600;
+	}
+</style>

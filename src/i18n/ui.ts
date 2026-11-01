@@ -49,6 +49,10 @@ export const ui = {
 		'summary.projects': 'Industry and government R&D projects with LG Electronics, KITECH, and KEIT.',
 		'summary.publications': 'Journal papers and conference presentations.',
 		'common.comingSoon': 'Content coming soon.',
+		'about.intro':
+			'My research focuses on <strong>Simulation, Digital Twin, and Physical AI</strong> for intelligent manufacturing and logistics systems.',
+		'about.focus':
+			'I specialize in <strong>collaborative intelligence for heterogeneous robots</strong> and <strong>virtual commissioning</strong>, leveraging DEVS-based simulation, reinforcement learning, and NVIDIA Isaac Sim to optimize system operations and validate behaviors before real-world deployment.',
 	},
 	ko: {
 		'site.title': '조상규 | 포트폴리오',
@@ -84,6 +88,10 @@ export const ui = {
 		'summary.projects': 'LG전자 · KITECH · KEIT 산학 및 국가 R&D 과제',
 		'summary.publications': '학술지 논문과 학회 발표',
 		'common.comingSoon': '내용 준비 중입니다.',
+		'about.intro':
+			'저의 연구는 지능형 제조·물류 시스템을 위한 <strong>시뮬레이션, 디지털 트윈, 피지컬 AI</strong>에 초점을 두고 있습니다.',
+		'about.focus':
+			'특히 <strong>이기종 로봇 협업 지능</strong>과 <strong>가상 시운전(Virtual Commissioning)</strong>을 전문으로 하며, DEVS 기반 시뮬레이션, 강화학습, NVIDIA Isaac Sim을 활용해 시스템 운영을 최적화하고 실제 배포 전에 동작을 검증합니다.',
 	},
 	ja: {
 		'site.title': 'チョ・サンギュ | ポートフォリオ',
@@ -119,6 +127,10 @@ export const ui = {
 		'summary.projects': 'LGエレクトロニクス・KITECH・KEITとの産学連携および国家R&D課題',
 		'summary.publications': '学術論文と学会発表',
 		'common.comingSoon': '準備中です。',
+		'about.intro':
+			'私の研究は、知能型製造・物流システムのための<strong>シミュレーション、デジタルツイン、フィジカルAI</strong>に焦点を当てています。',
+		'about.focus':
+			'特に<strong>異種ロボットの協調知能</strong>と<strong>バーチャルコミッショニング</strong>を専門とし、DEVSベースのシミュレーション、強化学習、NVIDIA Isaac Simを活用して、システム運用の最適化と実環境導入前の動作検証に取り組んでいます。',
 	},
 	zh: {
 		'site.title': 'Sang-Gyu Cho | 作品集',
@@ -154,6 +166,9 @@ export const ui = {
 		'summary.projects': '与 LG电子、KITECH、KEIT 合作的产学及国家研发项目',
 		'summary.publications': '期刊论文与学术会议报告',
 		'common.comingSoon': '内容即将上线。',
+		'about.intro': '我的研究聚焦于面向智能制造与物流系统的<strong>仿真、数字孪生与物理AI</strong>。',
+		'about.focus':
+			'我专注于<strong>异构机器人协同智能</strong>与<strong>虚拟调试</strong>，利用基于 DEVS 的仿真、强化学习和 NVIDIA Isaac Sim 优化系统运营，并在实际部署前验证系统行为。',
 	},
 } as const;
 
